@@ -1,25 +1,26 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { login } from "../services/AuthService";
 type Inputs = {
     email: string,
     password: string
 };
 const Login = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
-    const Login: SubmitHandler<Inputs> = () => {
-        console.log(123);
+    const LoginHandler: SubmitHandler<Inputs> = (payload) => {
+        login(payload);
     };
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-200">
             <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
                 <h1 className="text-lg font-bold mb-6 text-center">Đăng nhập</h1>
-                <form onSubmit={handleSubmit(Login)}>
+                <form onSubmit={handleSubmit(LoginHandler)}>
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
                         <input
                             type="text"
                             id="email"
-                            placeholder=""
-                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus-blue-200 h-11"
+                            placeholder="Nhập email của bạn"
+                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 h-11"
                             {...register("email", { required: true })}
                         />
                         {errors.email && <span className="text-red-500">Bạn phải nhập email</span>}
@@ -29,8 +30,8 @@ const Login = () => {
                         <input
                             type="password"
                             id="password"
-                            placeholder=""
-                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus-blue-200 h-11"
+                            placeholder="Nhập mật khẩu của bạn"
+                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus-blue-300 h-11"
                             {...register("password", { required: true })}
                         />
                         {errors.password && <span className="text-red-500">Bạn phải nhập mật khẩu</span>}
