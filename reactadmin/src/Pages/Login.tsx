@@ -1,14 +1,24 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { login } from "../services/AuthService";
+import { Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 type Inputs = {
     email: string,
     password: string
 };
 const Login = () => {
+    const Navigate = useNavigate();
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
-    const LoginHandler: SubmitHandler<Inputs> = (payload) => {
-        login(payload);
+    const LoginHandler: SubmitHandler<Inputs> = async (payload) => {
+        const logged = await login(payload);
+        if (logged === false) {
+            toast.error("Wow so easy!");
+        } else {
+            Navigate('/dashboard');
+        }
     };
+    //SubmitHandler<Inputs> là một kiểu dữ liệu dùng để đảm bảo rằng payload có đúng định dạng của Inputs.
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-200">
             <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
