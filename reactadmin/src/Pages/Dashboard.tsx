@@ -1,17 +1,13 @@
 import { useToast } from "../contexts/ToastContext";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-
+import { showNotify } from "../helpers/myHelper";
 
 const Dashboard = () => {
-    const { message, setMessage } = useToast();
-    useEffect(() => {
-        console.log(message);
-        if (message) {
-            toast.success(message);
-            setMessage("");
-        }
-        }, []);
+    const { message,type, setMessage } = useToast();
+    useEffect(() => {     
+        showNotify(message, type, setMessage);
+        }, [message, type,setMessage]);
     return (
         <div>dashboard</div>
     );

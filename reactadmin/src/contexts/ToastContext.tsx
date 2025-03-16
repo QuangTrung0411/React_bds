@@ -1,9 +1,11 @@
 import { createContext, useState, useContext, ReactNode } from "react";
 
+ export type ToastType = 'success' | 'error' | 'warning' | null;
+
 interface ToastContextType {
     message: string;
-    type:'success' | 'error' | 'warning' | null;
-    setMessage: (message: string,type?: 'success' | 'error' | 'warning') => void;
+    type: ToastType;
+    setMessage: (message: string,  type?: ToastType) => void;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -12,9 +14,19 @@ interface ToastProviderProps {
     children: ReactNode;
 }
 export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
-    const [message, setMessage] = useState<string>("");
+
+const [message, setToastMessage] = useState<string>("");
+const [type, setType] = useState<ToastType>(null);
+
+const setMessage = (message:string, type: ToastType = null) => {
+
+    setToastMessage(message);
+    setType(type);
+}
+
+
     return (
-        <ToastContext.Provider value={{ message, setMessage }}>
+        <ToastContext.Provider value={{ message, type, setMessage }}>
             {children}
         </ToastContext.Provider>
     );

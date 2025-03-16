@@ -14,7 +14,7 @@ const Login = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
     const LoginHandler: SubmitHandler<Inputs> = async (payload) => {
         const logged = await login(payload)
-        setMessage("Đăng nhập thành công");
+        setMessage("Đăng nhập thành công", 'success');
         logged && Navigate("/dashboard");
     };
     //SubmitHandler<Inputs> là một kiểu dữ liệu dùng để đảm bảo rằng payload có đúng định dạng của Inputs.
