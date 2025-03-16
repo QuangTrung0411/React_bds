@@ -10,6 +10,9 @@ import './index.css'
 import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
 import { ToastProvider } from './contexts/ToastContext';
+import store from './redux/store'
+import { Provider } from 'react-redux'
+
 const router = createBrowserRouter([
   {
     path: "/admin",
@@ -22,8 +25,10 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')!).render(
-<ToastProvider>
-        <RouterProvider router={router} />
-        <ToastContainer />
-</ToastProvider>
+  <Provider store={store}>
+    <ToastProvider>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </ToastProvider>
+  </Provider>
 )

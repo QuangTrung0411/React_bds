@@ -3,18 +3,23 @@ import { login } from "../services/AuthService";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useToast } from "../contexts/ToastContext";
+import { setToast } from "../redux/slice/toastSlice";
+import { useDispatch, UseDispatch } from "react-redux";
 
 type Inputs = {
     email: string,
     password: string
 };
 const Login = () => {
-    const { setMessage } = useToast();
+    // const { setMessage } = useToast();
     const Navigate = useNavigate();
+    const dispatch = useDispatch()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
     const LoginHandler: SubmitHandler<Inputs> = async (payload) => {
         const logged = await login(payload)
-        setMessage("Đăng nhập thành công", 'success');
+
+        dispatch(setToast({message:'đăng nhập thành công',type:'success'}))
+        // setMessage("Đăng nhập thành công", 'success'); //context
         logged && Navigate("/dashboard");
     };
     //SubmitHandler<Inputs> là một kiểu dữ liệu dùng để đảm bảo rằng payload có đúng định dạng của Inputs.
