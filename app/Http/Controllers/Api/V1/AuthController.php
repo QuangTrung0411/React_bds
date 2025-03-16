@@ -17,7 +17,7 @@ class AuthController extends Controller
         // $this->middleware('auth:api', ['except' => ['login']]);
 
     }
- 
+
     public function login(AuthRequest $request)
     {
         $credentials = [
@@ -31,7 +31,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác'], Response::HTTP_UNAUTHORIZED);
         }
 
-        $cookie = cookie::make('access_token', $token, config('jwt.ttl'), '/', null, false, true);
+        $cookie = Cookie::make('access_token', $token, config('jwt.ttl'), '/', null, false, true);
         return $this->respondWithToken($token)->withCookie($cookie);
     }
 

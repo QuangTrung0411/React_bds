@@ -9,6 +9,7 @@ import {
 import './index.css'
 import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
+import { ToastProvider } from './contexts/ToastContext';
 const router = createBrowserRouter([
   {
     path: "/admin",
@@ -21,8 +22,8 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-    <ToastContainer />
-  </StrictMode>,
+<ToastProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
+</ToastProvider>
 )
