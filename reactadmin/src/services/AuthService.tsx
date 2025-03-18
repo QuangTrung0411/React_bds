@@ -1,5 +1,5 @@
 import axiosInstance from "../configs/axios";
-import handleAxiosError from "../helpers/axiosHekper";
+import handleAxiosError from "../helpers/axiosHelper";
 
 type LoginPayload = {
     email: string,

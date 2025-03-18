@@ -2,9 +2,9 @@ import { toast } from "react-toastify";
 import { ToastType } from "../contexts/ToastContext";
 
 export const showNotify = (
-    message: string,
-    type: ToastType,
-    setMessage: (message: string, type: ToastType) => void
+    message: string, // nội dung thông báo
+    type: ToastType, // loại thông báo
+    setMessage: (message: string, type: ToastType) => void // hàm để xóa thông báo
 ) => {
 
     if (message) {
@@ -26,10 +26,11 @@ export const showNotify = (
 
 }
 
+// Hiển thị thông báo mà không xóa nó
 export const showToast = (
-    message: string,
-    type: ToastType,
-    setMessage: (message: string, type: ToastType) => void
+    message: string, // nội dung thông báo
+    type: ToastType, // loại thông báo
+    setMessage?: (message: string, type: ToastType) => void // hàm tùy chọn để xóa thông báo
 ) => {
 
     if (message) {

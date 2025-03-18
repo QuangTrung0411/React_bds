@@ -5,6 +5,10 @@ import { toast } from "react-toastify";
 import { useToast } from "../contexts/ToastContext";
 import { setToast } from "../redux/slice/toastSlice";
 import { useDispatch, UseDispatch } from "react-redux";
+import { Button } from "../components/ui/button"
+import { Loader2 } from "lucide-react"
+import { useState } from "react";
+
 
 type Inputs = {
     email: string,
@@ -15,12 +19,20 @@ const Login = () => {
     const Navigate = useNavigate();
     const dispatch = useDispatch()
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+    const [loading, setIsLoading] = useState<boolean>(false);
     const LoginHandler: SubmitHandler<Inputs> = async (payload) => {
-        const logged = await login(payload)
-
-        dispatch(setToast({message:'đăng nhập thành công',type:'success'}))
-        // setMessage("Đăng nhập thành công", 'success'); //context
-        logged && Navigate("/dashboard");
+        setIsLoading(true);
+        try {
+            const logged = await login(payload)
+            dispatch(setToast({ message: 'đăng nhập thành công', type: 'success' }))
+            // setMessage("Đăng nhập thành công", 'success'); //context
+            logged && Navigate("/dashboard");
+        } catch (error) {
+            
+        }
+        finally {
+            setIsLoading(false);
+        }
     };
     //SubmitHandler<Inputs> là một kiểu dữ liệu dùng để đảm bảo rằng payload có đúng định dạng của Inputs.
     return (
@@ -51,9 +63,13 @@ const Login = () => {
                         {errors.password && <span className="text-red-500">Bạn phải nhập mật khẩu</span>}
                     </div>
                     <div className="mb-4">
-                        <button type="submit"
-                            className="w-full bg-blue-500 text-white hover:bg-blue-700 h-11 rounded-md">Đăng nhập</button>
+                    <Button disabled={loading} className="w-full bg-blue-500 text-white hover:bg-blue-700 h-11 rounded-md">
+                        {loading ? <Loader2 className="animate-spin " /> : null}
+                        {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+                    </Button>
                     </div>
+
+
                     <p className="text-center text-gray-700"><a href="" className="text-blue-700 hover:text-blue-500">Quên mật khẩu</a></p>
                 </form>
             </div>

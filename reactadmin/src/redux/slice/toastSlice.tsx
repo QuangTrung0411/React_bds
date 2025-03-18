@@ -5,7 +5,7 @@ import { set } from 'react-hook-form'
 type ToastType = 'success' | 'error' | 'warning' | null
 
 export interface ToastState {
-    message: String,
+    message: string,
     type: ToastType
 }
 
@@ -18,7 +18,7 @@ export const toastSlice = createSlice({
     name: 'toast',
     initialState,
     reducers: {
-        setToast:(state, action: PayloadAction<{message:String,type:ToastType}>) => {
+        setToast:(state, action: PayloadAction<{message:string,type:ToastType}>) => {
             state.message = action.payload.message
             state.type = action.payload.type
         },
