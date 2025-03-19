@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AuthRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Cookie;
+use App\Http\Resources\UserResouce;
 
 class AuthController extends Controller
 {
@@ -31,16 +32,19 @@ class AuthController extends Controller
             return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác'], Response::HTTP_UNAUTHORIZED);
         }
 
+
+        $user = auth('api')->user();
         $cookie = Cookie::make('access_token', $token, config('jwt.ttl'), '/', null, false, true);
-        return $this->respondWithToken($token)->withCookie($cookie);
+        return $this->respondWithToken($token, $user)->withCookie($cookie);
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $user)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => config('jwt.ttl') * 60
+            'expires_in' => config('jwt.ttl') * 60,
+            'user' => new UserResouce($user)
         ]);
     }
 }

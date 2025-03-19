@@ -1,5 +1,9 @@
 import axiosInstance from "../configs/axios";
 import handleAxiosError from "../helpers/axiosHelper";
+import { UseSelector, useDispatch} from "react-redux";
+import type {Dispatch} from "@reduxjs/toolkit";
+import { setAuthLogin } from "../redux/slice/authSlice";
+import { User } from "../types/User";
 
 type LoginPayload = {
     email: string,
@@ -8,16 +12,22 @@ type LoginPayload = {
 
 
 //payload: LoginPayload: Định nghĩa kiểu dữ liệu của tham số truyền vào hàm login
-const login = async (payload: LoginPayload): Promise<boolean> => {
+const login = async (payload: LoginPayload) => {
     try {
-        await axiosInstance.post('/auth/login', {
+        // const dispatch: Dispatch = useDispatch();
+        const response = await axiosInstance.post('/auth/login', {
             email: payload.email,
             password: payload.password
         })
-        return true;
+
+        const user = response.data.user;
+        console.log(user);
+
+        // dispatch(setAuthLogin(user))
+        return response.data.user;
     } catch (error) {
         handleAxiosError(error);
-        return false;
+        return null;
     }
 }
 

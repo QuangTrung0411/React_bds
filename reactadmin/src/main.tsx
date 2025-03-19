@@ -9,11 +9,11 @@ import {
 import './index.css'
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import { ToastProvider } from './contexts/ToastContext';
 import store from './redux/store'
 import User from './pages/user/User';
 import { Provider } from 'react-redux';
 import Layout from './components/Layout';
+import AuthMiddleware from './middleware/AuthMiddleware';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Layout />,
+    element: <AuthMiddleware><Layout /></AuthMiddleware>,
     children: [
       {
         path: "/dashboard",
@@ -39,9 +39,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
-    <ToastProvider>
       <RouterProvider router={router} />
       <ToastContainer />
-    </ToastProvider>
   </Provider>
 )

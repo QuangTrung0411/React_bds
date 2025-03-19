@@ -8,6 +8,7 @@ import { useDispatch, UseDispatch } from "react-redux";
 import { Button } from "../components/ui/button"
 import { Loader2 } from "lucide-react"
 import { useState } from "react";
+import { setAuthLogin } from "../redux/slice/authSlice";
 
 
 type Inputs = {
@@ -23,12 +24,13 @@ const Login = () => {
     const LoginHandler: SubmitHandler<Inputs> = async (payload) => {
         setIsLoading(true);
         try {
-            const logged = await login(payload)
+            const auth = await login(payload)
             dispatch(setToast({ message: 'đăng nhập thành công', type: 'success' }))
+            dispatch(setAuthLogin(auth))
             // setMessage("Đăng nhập thành công", 'success'); //context
-            logged && Navigate("/dashboard");
+            auth && Navigate("/dashboard");
         } catch (error) {
-            
+
         }
         finally {
             setIsLoading(false);
@@ -63,10 +65,10 @@ const Login = () => {
                         {errors.password && <span className="text-red-500">Bạn phải nhập mật khẩu</span>}
                     </div>
                     <div className="mb-4">
-                    <Button disabled={loading} className="w-full bg-blue-500 text-white hover:bg-blue-700 h-11 rounded-md">
-                        {loading ? <Loader2 className="animate-spin " /> : null}
-                        {loading ? "Đang đăng nhập..." : "Đăng nhập"}
-                    </Button>
+                        <Button disabled={loading} className="w-full bg-blue-500 text-white hover:bg-blue-700 h-11 rounded-md">
+                            {loading ? <Loader2 className="animate-spin " /> : null}
+                            {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+                        </Button>
                     </div>
 
 
