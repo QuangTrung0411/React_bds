@@ -14,11 +14,15 @@ import User from './pages/user/User';
 import { Provider } from 'react-redux';
 import Layout from './components/Layout';
 import AuthMiddleware from './middleware/AuthMiddleware';
-
+import NoAuthMiddleware from './middleware/NoAuthMiddleware';
 const router = createBrowserRouter([
   {
     path: "/admin",
-    element: <Login />,
+    element:
+      <NoAuthMiddleware>
+        <Login />
+      </NoAuthMiddleware>
+    ,
   },
   {
     path: "/",
@@ -39,7 +43,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
-      <RouterProvider router={router} />
-      <ToastContainer />
+    <RouterProvider router={router} />
+    <ToastContainer />
   </Provider>
 )

@@ -21,7 +21,7 @@ const login = async (payload: LoginPayload) => {
         })
 
         const user = response.data.user;
-        console.log(user);
+        // console.log(user);
 
         // dispatch(setAuthLogin(user))
         return response.data.user;
@@ -30,5 +30,17 @@ const login = async (payload: LoginPayload) => {
         return null;
     }
 }
+const fetchUser = async (): Promise<User | null> => {
 
-export { login }
+    try {
+        const response = await axiosInstance.get('/auth/me');
+        return response.data.user;
+    } catch (error) {
+        handleAxiosError(error);
+        return null;
+    }
+
+ return null
+}
+
+export { login, fetchUser }

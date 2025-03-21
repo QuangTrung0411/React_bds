@@ -19,6 +19,7 @@ class AuthController extends Controller
 
     }
 
+    //Nhận request đã được validate qua AuthRequest
     public function login(AuthRequest $request)
     {
         $credentials = [
@@ -27,14 +28,24 @@ class AuthController extends Controller
         ];
 
 
-        //check dữ liệu đăng nhập auth('api')->attempt($credentials)
+        //check dữ liệu đăng nhập auth('api')->attempt($credentials),tạo jwt token
         if (! $token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Tài khoản hoặc mật khẩu không chính xác'], Response::HTTP_UNAUTHORIZED);
         }
 
 
         $user = auth('api')->user();
-        $cookie = Cookie::make('access_token', $token, config('jwt.ttl'), '/', null, false, true);
+        $cookie = Cookie::make(
+            'access_token',
+            $token,
+            config('jwt.ttl') * 60 * 24,
+            '/',
+            null,
+            true,
+            true,
+            false,
+            'None'
+        );
         return $this->respondWithToken($token, $user)->withCookie($cookie);
     }
 
@@ -43,8 +54,16 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => config('jwt.ttl') * 60,
+            'expires_in' => config('jwt.ttl') * 1,
             'user' => new UserResouce($user)
+        ]);
+    }
+
+    //Lấy thông tin User hiện tại
+    public function me()
+    {
+        return response()->json([
+           'user' => new UserResouce(auth('api')->user())
         ]);
     }
 }

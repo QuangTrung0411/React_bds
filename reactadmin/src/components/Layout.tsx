@@ -10,19 +10,22 @@ import { UseSelector, useDispatch, useSelector } from "react-redux";
 import { showToast } from "../helpers/myHelper";
 
 const Layout: React.FC = () => {
-        // const { message,type, setMessage } = useToast();
-        const { message, type } = useSelector((state: RootState) => state.toast);
-        const dispatch = useDispatch()
-    
-        useEffect(() => {
-    
-            showToast(message, type);
-            dispatch(clearToast())
-        }, [message, type]);
+    // const { message,type, setMessage } = useToast();
+    const { message, type } = useSelector((state: RootState) => state.toast);
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+
+        showToast(message, type);
+        dispatch(clearToast())
+    }, [message, type]);
+
+
+
     return (
         <>
-        trang layout tổng
-        <Outlet />
+            trang layout tổng
+            <Outlet />
         </>
     )
 }

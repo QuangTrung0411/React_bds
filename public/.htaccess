@@ -23,3 +23,12 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+
+<IfModule mod_headers.c>
+    SetEnvIf Origin "http(s)?://(localhost|127.0.0.1)(:[0-9]+)?$" CORS_ALLOW_ORIGIN=$0
+    Header set Access-Control-Allow-Origin %{CORS_ALLOW_ORIGIN}e env=CORS_ALLOW_ORIGIN
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-XSRF-TOKEN"
+    Header set Access-Control-Allow-Credentials "true"
+</IfModule>
