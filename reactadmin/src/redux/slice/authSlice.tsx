@@ -5,7 +5,7 @@ import { User } from '../../types/User'
 
 
 export interface AuthState {
-    isAuthenticated: boolean,
+    isAuthenticated: boolean, //trạng thái đăng nhập
     user: User | null
 }
 

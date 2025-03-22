@@ -22,7 +22,7 @@ const Login = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
     const [loading, setIsLoading] = useState<boolean>(false);
     const LoginHandler: SubmitHandler<Inputs> = async (payload) => {
-        setIsLoading(true);
+        setIsLoading(true);//loading đăng nhập
         try {
             const auth = await login(payload)
             dispatch(setToast({ message: 'đăng nhập thành công', type: 'success' }))
@@ -33,7 +33,7 @@ const Login = () => {
 
         }
         finally {
-            setIsLoading(false);
+            setIsLoading(false);// Tắt trạng thái loading
         }
     };
     //SubmitHandler<Inputs> là một kiểu dữ liệu dùng để đảm bảo rằng payload có đúng định dạng của Inputs.

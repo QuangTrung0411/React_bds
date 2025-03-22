@@ -19,12 +19,12 @@ const AuthMiddleware = ({ children }: protectedRouteProps) => {
     useEffect(() => {
         const checkAuthenticate = async () => {
             if (!isAuthenticated || user === null) {
-                const userData = await fetchUser();
+                const userData = await fetchUser();// Gọi API để kiểm tra token
                 if (userData) {
                     dispatch(setAuthLogin(userData));
                 } else {
                     dispatch(setAuthLogout());
-                    navigate("/admin");
+                    navigate("/admin");// Điều hướng về trang login nếu không xác thực
                 }
             }
         }
