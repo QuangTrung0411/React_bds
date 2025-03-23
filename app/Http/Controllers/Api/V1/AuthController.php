@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         $user = auth('api')->user();
 
-                $refreshTokenData = $this->refreshTokenData($user);
+        $refreshTokenData = $this->refreshTokenData($user);
 
         $refresh_token = JWTAuth::getJWTProvider()->encode($refreshTokenData);
 
@@ -59,35 +59,33 @@ class AuthController extends Controller
         try {
             if ($request->hasCookie('access_token')) {
                 $token = $request->cookie('access_token');
-                $request->headers->set('Authorization', 'Bearer ' . $token);//thêm token vào header request
+                $request->headers->set('Authorization', 'Bearer ' . $token); //thêm token vào header request
             }
-            $user = JWTAuth::parseToken()->authenticate();//lấy user hiện tại
+            $user = JWTAuth::parseToken()->authenticate(); //lấy user hiện tại
 
-            $token = JWTAuth::parseToken()->refresh();//tạo token mới
-
+            $token = JWTAuth::parseToken()->refresh(); //tạo token mới
+            if (JWTAuth::getToken()) {
+                JWTAuth::invalidate(JWTAuth::getToken()); // This will blacklist the old token if blacklist is enabled
+            }
             $refreshTokenData = $this->refreshTokenData($user);
+            JWTAuth::invalidate(JWTAuth::getToken()); // Vô hiệu hóa token cũ để đảm bảo không sử dụng lại
             $refreshToken = JWTAuth::getJWTProvider()->encode($refreshTokenData);
-            $cookie = $this->setTokenAndRefreshTokenCookie($token, $refreshToken); 
+            $cookie = $this->setTokenAndRefreshTokenCookie($token, $refreshToken);
             $tokenCookie = $cookie['tokenCookie'];
             $refreshCookie = $cookie['refreshTokenCookie'];
             return $this->respondWithToken($token, $refreshToken, $user)->withCookie($tokenCookie)->withCookie($refreshCookie);
-
-
-            // if (!$token) {
-            //     return response()->json(['message' => 'Token không hợp lệ hoặc hết hạn'], 401);
-            // }
-
-            // $user = auth('api')->user();
-
-            // if (!$user) {
-            //     return response()->json(['message' => 'user không tồn tại'], 401);
-            // }
         } catch (TokenExpiredException $e) {
 
             if ($request->hasCookie('refresh_token')) {
+
+                if (!$request->cookie('refresh_token')) {
+                    return response()->json(['message' => 'Token không tìm thấy'],  Response::HTTP_UNAUTHORIZED);
+                }
+
                 $refreshTokenCookie = $request->cookie('refresh_token');
-                $refreshTokenDecoded = JWTAuth::getJWTProvider()->decode($refreshTokenCookie);
-                $user = User::find($refreshTokenDecoded['user_id']);
+                $refreshTokenDecode = JWTAuth::getJWTProvider()->decode($refreshTokenCookie);
+
+                $user = User::find($refreshTokenDecode['user_id']);
                 $token = auth('api')->login($user);
                 $refreshTokenData = $this->refreshTokenData($user);
                 $refreshToken = JWTAuth::getJWTProvider()->encode($refreshTokenData);
@@ -99,11 +97,11 @@ class AuthController extends Controller
             }
 
 
-            return response()->json(['message' => 'Token đã hết hạn'], 401);
+            return response()->json(['message' => 'Token đã hết hạn'],  Response::HTTP_UNAUTHORIZED);
         } catch (JWTException $e) {
-            return response()->json(['message' => 'Token không hợp lệ'], 401);
+            return response()->json(['message' => 'Token không hợp lệ'],  Response::HTTP_UNAUTHORIZED);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Token không tìm thấy'], 401);
+            return response()->json(['message' => 'Token không tìm thấy'],  Response::HTTP_UNAUTHORIZED);
         }
     }
 
@@ -131,7 +129,7 @@ class AuthController extends Controller
         $cookie = Cookie::make(
             'access_token',
             $token,
-            config('jwt.ttl') * 60 * 24,
+            config('jwt.ttl') * 24, //1ngay
             '/',
             null,
             true,
@@ -143,7 +141,7 @@ class AuthController extends Controller
         $refreshTokenCookie = Cookie::make(
             'refresh_token',
             $refreshToken,
-            config('jwt.ttl') * 60 * 24,
+            config('jwt.ttl') * 60 * 24 * 14, //2 tuần
             '/',
             null,
             true,
@@ -158,19 +156,21 @@ class AuthController extends Controller
     }
 
 
-    private function refreshTokenData($user) {
+    private function refreshTokenData($user)
+    {
         return [
             'user_id' => $user->id, //id của user
-            'expires_in' => time() * config('jwt.ttl'), //thời gian hết hạn của token
+            'expires_in' => time() + 1, //thời gian hết hạn của token
+            'random' => time() . md5(rand())
         ];
     }
 
-//     private function refreshToken($token,$refreshToken) {
-//         $refreshTokenData = $this->refreshTokenData($user);
-//         $refreshToken = JWTAuth::getJWTProvider()->encode($refreshTokenData);
+    //     private function refreshToken($token,$refreshToken) {
+    //         $refreshTokenData = $this->refreshTokenData($user);
+    //         $refreshToken = JWTAuth::getJWTProvider()->encode($refreshTokenData);
 
-//         $cookie = $this->setTokenAndRefreshTokenCookie($token, $refreshToken);
-//         $tokenCookie = $cookie['tokenCookie'];
-//         $refreshCookie = $cookie['refreshTokenCookie'];
-// }
+    //         $cookie = $this->setTokenAndRefreshTokenCookie($token, $refreshToken);
+    //         $tokenCookie = $cookie['tokenCookie'];
+    //         $refreshCookie = $cookie['refreshTokenCookie'];
+    // }
 }
