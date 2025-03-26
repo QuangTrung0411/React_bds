@@ -8,6 +8,11 @@ import { RootState } from "../redux/store";
 import { clearToast } from "../redux/slice/toastSlice";
 import { UseSelector, useDispatch, useSelector } from "react-redux";
 import { showToast } from "../helpers/myHelper";
+import Header from "./Header";
+import Aside from "./Aside";
+import '../assets/scss/Style.scss'
+
+
 
 const Layout: React.FC = () => {
     // const { message,type, setMessage } = useToast();
@@ -23,10 +28,17 @@ const Layout: React.FC = () => {
 
 
     return (
-        <>
-            trang layout tổng
-            <Outlet />
-        </>
+
+            <div className="page">
+
+                {/* <Header /> */}
+                <Aside />
+                <div className="main-content">
+                    <Outlet />
+                </div>
+
+            </div>
+
     )
 }
 
