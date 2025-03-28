@@ -10,7 +10,7 @@ import './index.css'
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import store from './redux/store'
-import User from './pages/user/User';
+import User from './pages/user/user/View';
 import { Provider } from 'react-redux';
 import Layout from './components/Layout';
 import AuthMiddleware from './middleware/AuthMiddleware';
@@ -33,8 +33,12 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "/user",
-        element: <User />,
+        path: "/dashboard/order",
+        element: <Dashboard />,
+      },
+      {
+        path: "/user/index",
+        element: <User/>,
       },
     ]
   },

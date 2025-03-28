@@ -23,8 +23,8 @@ export const sidebarItem = [
                 active: ['user'],
                 label: 'QL Thành Viên',
                 links: [
-                    {title: 'QL Nhóm Thành Viên',to: '/user/catalogue'},
-                    {title: 'QL Thành Viên',to: '/user'},
+                    {title: 'QL Nhóm Thành Viên',to: '/user/catalogue/index'},
+                    {title: 'QL Thành Viên',to: '/user/index'},
                 ]
             }
         ]

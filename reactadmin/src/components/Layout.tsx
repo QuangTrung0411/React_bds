@@ -31,7 +31,7 @@ const Layout: React.FC = () => {
 
             <div className="page">
 
-                {/* <Header /> */}
+                <Header/>
                 <Aside />
                 <div className="main-content">
                     <Outlet />

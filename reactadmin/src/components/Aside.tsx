@@ -25,7 +25,7 @@ const Aside = () => {
     };
 
     return (
-        <aside className="app-aside w-60 bg-[#111c43] h-full fixed">
+        <aside className="app-aside w-60 bg-[#111c43] h-full fixed top-0">
             <div className="main-sidebar-header w-60 p-3.5 z-10 fixed h-14 text-center border-solid border-red-500 border-2">
                 <a href="" className="inline-block">
                     <img
@@ -70,7 +70,7 @@ const Aside = () => {
                                                     >
                                                         {link.title}
                                                         <span className="absolute left-2 top-1/2 transform -translate-y-1/2
-                                                            w-1 h-1 border-2 border-primary rounded-full bg-white"></span>
+                                                            w-1 h-1 border-2 rounded-full bg-white"></span>
                                                     </Link>
                                                 </li>
                                             ))}
