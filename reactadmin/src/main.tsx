@@ -15,6 +15,12 @@ import { Provider } from 'react-redux';
 import Layout from './components/Layout';
 import AuthMiddleware from './middleware/AuthMiddleware';
 import NoAuthMiddleware from './middleware/NoAuthMiddleware';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 const router = createBrowserRouter([
   {
     path: "/admin",
@@ -45,9 +51,14 @@ const router = createBrowserRouter([
 
 ]);
 
+const queryClient = new QueryClient();
+
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
     <RouterProvider router={router} />
     <ToastContainer />
+    <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </Provider>
 )

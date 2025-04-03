@@ -11,6 +11,7 @@ import { setAuthLogin, setAuthLogout } from "../redux/slice/authSlice";
 type protectedRouteProps = PropsWithChildren
 
 const AuthMiddleware = ({ children }: protectedRouteProps) => {
+    //children: ReactNode=layout
 
     const navigate = useNavigate();
     const dispatch = useDispatch();

@@ -96,7 +96,6 @@ class AuthController extends Controller
                 return $this->respondWithToken($token, $refreshToken, $user)->withCookie($tokenCookie)->withCookie($refreshCookie);
             }
 
-
             return response()->json(['message' => 'Token đã hết hạn'],  Response::HTTP_UNAUTHORIZED);
         } catch (JWTException $e) {
             return response()->json(['message' => 'Token không hợp lệ'],  Response::HTTP_UNAUTHORIZED);
@@ -129,7 +128,7 @@ class AuthController extends Controller
         $cookie = Cookie::make(
             'access_token',
             $token,
-            config('jwt.ttl') * 24, //1ngay
+            config('jwt.ttl') * 24, //1 ngày
             '/',
             null,
             true,

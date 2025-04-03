@@ -17,12 +17,7 @@ const refreshToken = async () => {
   try {
     const response = await apiCall.post('auth/refresh');
     console.log(response);
-
-
   } catch (error) {
-
-
-
     throw new Error('không thể khởi tạo access token');
   }
 }

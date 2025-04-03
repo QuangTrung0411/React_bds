@@ -23,7 +23,7 @@ import { FaCog } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <header className="app-header h-14 fixed w-full content-center items-center top-0 bg-white">
+    <header className="absolute app-header h-14 fixed w-full content-center items-center top-0 bg-white">
       <div className="main-header mx-auto px-15px h-full flex items-center justify-between">
         <FaBars className="text-30px cursor-pointer" />
         <div className="header-right-content flex justify-end items-center">
@@ -33,13 +33,13 @@ const Header = () => {
           <div className="card-dropdown">
             <Link to="/" className="header-link flex relative">
               <FiShoppingCart className="cursor pointer header-link-icon" />
-              <span className="badge absolute top-[2px] right-[2px] text-[10px] text-white font-semibold w-[14px] h-[15px] text-center rounded-full bg-primary">5</span>
+              <span className="badge absolute top-[10px] right-[5px] text-[10px] text-white font-semibold w-[14px] h-[15px] text-center rounded-full bg-primary">5</span>
             </Link>
           </div>
           <div className="notification-dropdown">
             <Link to="/" className="header-link flex relative">
               <IoMdNotificationsOutline className="cursor pointer header-link-icon" />
-              <span className="badge absolute top-[2px] right-[2px] text-[10px] text-white font-semibold w-[14px] h-[15px] text-center rounded-full bg-second">5</span>
+              <span className="badge absolute top-[10px] right-[5px] text-[10px] text-white font-semibold w-[14px] h-[15px] text-center rounded-full bg-second">5</span>
             </Link>
           </div>
           <div className="shortcut-dropdown">
