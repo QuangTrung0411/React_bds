@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import PageHeading from "../../../components/Heading";
 import {
     Card,
@@ -26,18 +26,39 @@ import { RiResetLeftFill } from "react-icons/ri";
 import { pagination } from "../../../services/UserService";
 import { useQuery } from "@tanstack/react-query";
 import { LoadingSpinner } from "../../../components/ui/loading";
+import Paginate from "../../../components/paginate";
+// import { use } from "react";
+import { useState, useEffect } from "react";
+
+
 
 const User = () => {
+
+    const navigate = useNavigate();
 
     const breadcrumb = {
         title: "Quản Lý Thành viên",
         route: "/user/index",
     }
 
-    const { isLoading, data, isError, error } = useQuery({
-        queryKey: ["users"],
-        queryFn: pagination
+    const [searchParams, setSearchParams] = useSearchParams();
+    const currentPage = searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1;
+
+
+    const [page, setPage] = useState<number | null>(currentPage);
+    const { isLoading, data, isError, error, refetch } = useQuery({
+        queryKey: ["users", page],
+        queryFn: () => pagination(page)
     });
+
+    const handlePageChange = (page: number | null) => {
+        setPage(page);
+        navigate(`?page=${page}`);
+    }
+
+    useEffect(() => {
+        refetch();
+    }, [page, refetch]);
 
     console.log(data)
 
@@ -71,14 +92,14 @@ const User = () => {
                             <TableBody>
                                 {isLoading ? (
                                     <TableRow>
-                                        <TableCell aria-colspan={9} className="text-center items-center">
+                                        <TableCell colSpan={9} className="text-center items-center">
                                             <LoadingSpinner className="inline-block mr-[5px]" />
                                             Loading...
                                         </TableCell>
                                     </TableRow>
                                 ) : isError ? (
                                     <TableRow>
-                                        <TableCell aria-colspan={9} className="text-center text-[12px] text-[#f00000]">
+                                        <TableCell colSpan={9} className="text-center text-[12px] text-[#f00000]">
                                             có vấn đề xảy ra trong quá trình truy suất dữ liệu.Hãy thử lại sau
                                         </TableCell>
                                     </TableRow>
@@ -120,7 +141,8 @@ const User = () => {
 
                     </CardContent>
                     <CardFooter>
-                        <p>Card Footer</p>
+                        {data?.links && <Paginate links={data.links} pageChange={handlePageChange} />}
+
                     </CardFooter>
                 </Card>
             </div>

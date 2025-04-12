@@ -159,7 +159,7 @@ class AuthController extends Controller
     {
         return [
             'user_id' => $user->id, //id của user
-            'expires_in' => time() + 1, //thời gian hết hạn của token
+            'expires_in' => time() + 1, //thời gian hết hạn của refreshtoken
             'random' => time() . md5(rand())
         ];
     }
