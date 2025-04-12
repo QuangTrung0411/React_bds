@@ -16,3 +16,6 @@ export default store;
 // 👉 Export RootState và AppDispatch để dùng trong TypeScript (nếu cần)
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+
+//chức năng thông báo cho ứng dụng sử dụng Redux Toolkit

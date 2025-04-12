@@ -1,0 +1,29 @@
+
+body {
+    background: rgb(240, 241, 247, 1) !important;
+    button{
+        outline: none !important
+    } ;
+}
+
+.main-content {
+    margin-left: 240px;
+    margin-block-start: 3.5rem;
+    height: calc(100vh - 50px);
+
+}
+
+.app-header {
+    padding-left: 240px;
+    .header-right-content {
+
+        .header-link {
+            padding: 1rem 0.9rem;
+
+            .header-link-icon {
+                font-size: 20px;
+                color:#5564b5
+            }
+        }
+    }
+}

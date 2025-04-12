@@ -101,7 +101,7 @@ return [
     |
     */
 
-    'ttl' => env('JWT_TTL', 60),// Thời gian sống của token (phút)
+    'ttl' => env('JWT_TTL', 1),// Thời gian sống của token (phút)
 
     /*
     |--------------------------------------------------------------------------
